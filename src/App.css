@@ -2,8 +2,7 @@
 
 #header {
   background-color: #3f4145;
-  margin: 0;
-  padding: 10px;
+  height: 15%;
 }
 
 #header h1 {
@@ -29,8 +28,13 @@ nav {
 }
 
 /* END NAV BAR */
+html, body, #root {
+  height: 100%;
+}
 
-
+#test{
+  height: 85%;
+}
 
 
 /* INDEX.CSS THINGS? */
@@ -55,3 +59,4 @@ code {
 }
 
 /* END INDEX.CSS THINGS */
+
