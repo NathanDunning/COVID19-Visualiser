@@ -9,23 +9,22 @@ import BarChart from './components/barchart';
 function App() {
   return (
       <Router>
-        <div>
+        <div id='header'>
           <h1>COVID-19 Data Visualiser</h1>
           <nav>
-            <ul>
-              <li><Link to={'/'} className="nav-link"> View 1 </Link></li>
-              <li><Link to={'/view2'} className="nav-link">View 2</Link></li>
-              <li><Link to={'/view3'} className="nav-link">View 3</Link></li>
-            </ul>
+              <Link to={'/'} className="nav-link"> View 1 </Link>
+              <Link to={'/view2'} className="nav-link">View 2</Link>
+              <Link to={'/view3'} className="nav-link">View 3</Link>
           </nav>
         </div>
-        <hr/>
-        <Switch>
-          <Route exact path='/' component={View1}/>
-          <Route path='/view1' component={View1}/>
-          <Route path='/view2' component={View2}/>
-          <Route path='/view3' component={View3}/>
-        </Switch>
+        <div class='wrapper'>
+          <Switch>
+            <Route exact path='/' component={View1}/>
+            <Route path='/view1' component={View1}/>
+            <Route path='/view2' component={View2}/>
+            <Route path='/view3' component={View3}/>
+          </Switch>
+        </div>
       </Router>
   );
 }
