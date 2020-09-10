@@ -2,19 +2,26 @@ import React, { Component } from 'react'
 import {VectorMap} from 'react-jvectormap'
 
 export default class View2 extends Component {
+  constructor(props) {
+    super(props);
+    this.mapRef = React.createRef()
+  }
+
   render() {
     
 
     return (
       <div id="test">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.4/jquery-jvectormap.css" type="text/css" media="screen"/>
+        <div><h1>Title for view</h1></div>
         <VectorMap map={'world_mill'}
                     backgroundColor="#15171a"
-                    ref="map"
+                    ref={this.mapRef}
                     containerStyle={{
-                        height: '100%'
+                        height: '90%',
+                        width: '90%'
                     }}
                     containerClassName="map"
+                    zoomOnScroll={false}
         />
       </div>
     );
