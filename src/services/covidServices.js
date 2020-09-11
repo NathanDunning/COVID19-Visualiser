@@ -65,7 +65,7 @@ export const getDatedReportByCountry = (country, date) => {
         };
 
         fetch(
-            `https://covid19-api.com/report/country/name?name=${country}&date=${date}&date-format=DD-MM-YYYY&format=json`,
+            `https://covid19-api.com/report/country/name?name=${formattedCountry}&date=${date}&date-format=DD-MM-YYYY&format=json`,
             requestOptions
         ).then(res => {
             res.json()
