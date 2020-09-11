@@ -33,8 +33,13 @@ html, body, #root {
   height: 100%;
 }
 
-#test{
+#test {
   height: 85%;
+  text-align:center;
+}
+
+.mainframe {
+  text-align: center;
 }
 
 
