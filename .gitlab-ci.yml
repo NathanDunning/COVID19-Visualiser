@@ -1,0 +1,17 @@
+image: "node:12.6.0"
+  
+stages:
+  - deploy
+
+HerokuDeploy:
+  tags:
+    - docker
+  stage: deploy
+  script:
+   - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/data-visualisation-swen422.git
+   - git push heroku master
+  artifacts:
+    paths:
+      - node_modules/
+  only: 
+    - master
