@@ -5,7 +5,7 @@ stages:
 
 HerokuDeploy:
   tags:
-    - shell
+    - docker
   stage: deploy
   script:
    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/data-visualisation-swen422.git
