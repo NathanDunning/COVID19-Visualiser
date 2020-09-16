@@ -1,23 +1,30 @@
 /* NAV BAR THINGS */
-
-#header {
+.nav-container {
   background-color: #3f4145;
-}
-
-#header h1 {
-  text-align: center;
-  font-weight: bold;
-  margin: 0;
-  padding: 1%;
-  padding-bottom: 0;
-}
-
-nav {
-  justify-content: space-around;
   display: flex;
-  padding: 10px;
-  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
 }
+
+.nav-container h1 {
+  font-weight: bold;
+  color: #FFEDCB;
+}
+
+.nav-element {
+  margin: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.navlink-container {
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+
 .nav-link {
   text-decoration: none;
   color: #d9f3ff;
@@ -25,12 +32,13 @@ nav {
 
 .nav-link:hover {
   text-decoration: none;
-  color: #df9f1f;
+  color: #DCA11D;
 }
 
 /* END NAV BAR */
 html, body, #root {
   height: 100%;
+  overflow: hidden;
 }
 
 #test {
@@ -63,6 +71,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* WORLD MAP/GENERAL THINGS */
+:root {
+  --stat-green: rgb(101, 221, 155);
+  --stat-red: #F65164;
+  --stat-orange: #FF9D00;
+  --stat-amber: #ffc137;
+  --stat-yellow: rgb(248, 245, 64);
+  --stat-blue: rgb(68, 155, 226);
+  --stat-cyan: #3ecee5;
+  --paleGray: #DFDFEF;
+
+  --color-primary: #5468b3;
+
+  --color-navy-1: #2e3652;
+  --color-navy-2: #364061;
+  --color-navy-3: #3d486c;
+  --color-navy-4: #445175;
+  --color-navy-5: #4b5a81;
+
+  --color-info: #347fd5;
+  --color-success: #43ca54;
+  --color-error: #F35353;
+  --color-warning: #ffd337;
+
+  --color-none: transparent;
+}
+
+.text--green {
+  color: var(--stat-green);
+}
+
+.text--red {
+  color: var(--stat-red);
+}
+
+.text--orange {
+  color: var(--stat-orange);
+}
+
+.text--yellow {
+  color: var(--stat-yellow);
+}
+
+.text--amber {
+  color: var(--stat-amber);
+}
+
+.text--blue {
+  color: var(--stat-blue);
+}
+
+.text--cyan {
+  color: var(--stat-cyan);
+}
+
+.text--gray {
+  color: var(--paleGray);
+}
+
+.text-center {
+  text-align: center!important;
+}
+
+.row {
+  margin-bottom: 25px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:last-child {
+  border: none
+}
+
+.h5, h5 {
+  font-size: 1.25rem;
+}
+
+.title {
+  margin: 0.5rem
+}
+
 
 /* END INDEX.CSS THINGS */
 

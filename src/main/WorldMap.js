@@ -19,6 +19,9 @@ export default class WorldMap extends Component {
       let countryCases = {}
       let data = new Map()
       res.forEach(country => {
+        let active = country.confirmed - country.recovered - country.deaths
+        active >= 0 ? country.active = active : country.active = 0
+
         countryCases[country.code] = country.confirmed
         data.set(country.code, country)
       })
@@ -43,12 +46,43 @@ export default class WorldMap extends Component {
     }
 
     // Our main data object
-    const countryData = this.state.data.get(code)
-    label.html(
-      '<b>' + label.html() + '</b></br>' +
-      '<b>Confirmed Cases: </b>' + numberWithCommas(countryData.confirmed) + '</br>' +
-      '<b>Deaths: </b>' + numberWithCommas(countryData.deaths) + '</br>'
-    );
+    var countryData = this.state.data.get(code)
+    if (countryData === undefined) {
+      countryData = {
+        confirmed: 'unknown',
+        recovered: 'unknown',
+        active: 'unknown',
+        critical: 'unknown',
+        deaths: 'unknown'
+      }
+    }
+    label.html(`
+        <div class="title text-center h5"><span>${label.html()}</span></div>
+        <table>
+          <tbody>
+            <tr>
+              <td><b>Confirmed:</b></td>
+              <td><span class="text--green">${numberWithCommas(countryData.confirmed)}</span></td>
+            </tr>
+            <tr>
+              <td><b>Recovered:</b></td>
+              <td><span class="text--blue">${numberWithCommas(countryData.recovered)}</span></td>
+            </tr>
+            <tr>
+              <td><b>Active:</b></td>
+              <td><span class="text--yellow">${numberWithCommas(countryData.active)}</span></td>
+            </tr>
+            <tr>
+              <td><b>Critical:</b></td>
+              <td><span class="text--orange">${numberWithCommas(countryData.critical)}</span></td>
+            </tr>
+            <tr>
+              <td><b>Deaths:</b></td>
+              <td><span class="text--red">${numberWithCommas(countryData.deaths)}</span></td>
+            </tr>
+          </tbody>
+        </table>
+    `);
     // Can add more here if we want (check the countryData object, contains juicy stuff)
   }
 

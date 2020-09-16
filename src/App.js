@@ -8,14 +8,15 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <div id='header'>
-        <h1>COVID-19 Data Visualiser</h1>
-        <nav>
+      <nav className="nav-container">
+        <h1 className="nav-element">COVID-19 Data Visualiser</h1>
+        <div className="navlink-container">
           <Link to={'/'} className="nav-link"> World Map </Link>
           <Link to={'/view2'} className="nav-link">View 2</Link>
           <Link to={'/view3'} className="nav-link">View 3</Link>
-        </nav>
-      </div>
+        </div>
+        <h1 className="nav-element" style={{ color: '#DDF2FF' }}>Team DON</h1>
+      </nav>
       <Switch>
         <Route exact path='/' component={WorldMap} />
         <Route path='/map' component={WorldMap} />
