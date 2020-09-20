@@ -9,7 +9,7 @@
 
 .nav-container h1 {
   font-weight: bold;
-  color: #FFEDCB;
+  color: #ffedcb;
 }
 
 .nav-element {
@@ -24,7 +24,6 @@
   width: 50%;
 }
 
-
 .nav-link {
   text-decoration: none;
   color: #d9f3ff;
@@ -32,24 +31,25 @@
 
 .nav-link:hover {
   text-decoration: none;
-  color: #DCA11D;
+  color: #dca11d;
 }
 
 /* END NAV BAR */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   overflow: hidden;
 }
 
 #test {
   height: 85%;
-  text-align:center;
+  text-align: center;
 }
 
 .mainframe {
   text-align: center;
 }
-
 
 /* INDEX.CSS THINGS? */
 
@@ -64,7 +64,8 @@ body {
 
 @font-face {
   font-family: 'Montserrat', sans-serif;
-  src: local('Montserrat'), url(./fonts/Montserrat-Regular.ttf) format('truetype');
+  src: local('Montserrat'),
+    url(./fonts/Montserrat-Regular.ttf) format('truetype');
 }
 
 code {
@@ -75,13 +76,13 @@ code {
 /* WORLD MAP/GENERAL THINGS */
 :root {
   --stat-green: rgb(101, 221, 155);
-  --stat-red: #F65164;
-  --stat-orange: #FF9D00;
+  --stat-red: #f65164;
+  --stat-orange: #ff9d00;
   --stat-amber: #ffc137;
   --stat-yellow: rgb(248, 245, 64);
   --stat-blue: rgb(68, 155, 226);
   --stat-cyan: #3ecee5;
-  --paleGray: #DFDFEF;
+  --paleGray: #dfdfef;
 
   --color-primary: #5468b3;
 
@@ -93,7 +94,7 @@ code {
 
   --color-info: #347fd5;
   --color-success: #43ca54;
-  --color-error: #F35353;
+  --color-error: #f35353;
   --color-warning: #ffd337;
 
   --color-none: transparent;
@@ -132,7 +133,7 @@ code {
 }
 
 .text-center {
-  text-align: center!important;
+  text-align: center !important;
 }
 
 .row {
@@ -144,23 +145,27 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   text-align: left;
   padding: 8px;
 }
 
 tr:last-child {
-  border: none
+  border: none;
 }
 
-.h5, h5 {
+.h5,
+h5 {
   font-size: 1.25rem;
 }
 
 .title {
-  margin: 0.5rem
+  margin: 0.5rem;
 }
 
-
+/* Switch Selector */
+.MuiFormControlLabel-root {
+  justify-content: center;
+}
 /* END INDEX.CSS THINGS */
-
