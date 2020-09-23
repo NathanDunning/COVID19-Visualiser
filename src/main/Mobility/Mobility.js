@@ -7,30 +7,6 @@ import "./Mobility.css"
 import CMap from '../../services/countries.json';
 import Select from 'react-select'
 
-// const CustomTooltip = ({ active, payload, label }) => {
-//   if (active) {
-
-//     console.log(payload);
-
-//     if(payload[0].dataKey == "rec") {
-//       payload[0].dataKey = "Retail and Recreation"
-//     } else if(payload[0].dataKey == "groc") {
-//       payload[0].dataKey = "Supermarket and pharmacy"
-//     } else if(payload[0].dataKey == "park") {
-//       payload[0].dataKey = "Parks"
-//     } else if(payload[0].dataKey == "resident") {
-//       payload[0].dataKey = "Residential"
-//     }
-//     return (
-//       <div className="custom-tooltip">
-//         <p className="label">{`${payload[0].dataKey} : ${payload[0].value}`}</p>
-//       </div>
-//     );
-//   }
-
-//   return null;
-// };
-
 export default class Mobility extends Component {
 
   constructor(props) {
@@ -90,9 +66,6 @@ export default class Mobility extends Component {
 
         const dateString = new Date(row[dateIndex]);
         const date = dateString.toDateString();
-
-
-        console.log(date);
 
         if (row[recIndex] == null) continue;
         const text = '{ "date" : "' + date + 
@@ -276,8 +249,8 @@ export default class Mobility extends Component {
               <Bar dataKey='date' maxBarSize={0} />
               <Brush
                 height={20}
-                startIndex='5'
-                endIndex='25'
+                startIndex={5}
+                endIndex={25}
                 dataKey='date'
                 data={data}
                 stroke="#8884d8"
