@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import WorldMap from './main/WorldMap'
 import View2 from './main/view2'
-import Mobility from './main/Mobility'
+import Mobility from './main/Mobility/Mobility'
 import './App.css';
 
 function App() {

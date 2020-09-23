@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { getMobility, getMobilityCountries } from '../services/covidServices'
+import { getMobility, getMobilityCountries } from '../../services/covidServices'
 import { XAxis, YAxis, CartesianGrid, Tooltip, Brush,
   AreaChart, Area, BarChart, Bar
 } from 'recharts';
 import "./Mobility.css"
-import CMap from '../services/countries.json';
+import CMap from '../../services/countries.json';
 import Select from 'react-select'
 
 // const CustomTooltip = ({ active, payload, label }) => {
