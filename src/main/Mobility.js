@@ -3,10 +3,11 @@ import { getMobility, getMobilityCountries } from '../services/covidServices'
 import { XAxis, YAxis, CartesianGrid, Tooltip, Brush,
   AreaChart, Area, BarChart, Bar
 } from 'recharts';
-import { Dropdown } from 'semantic-ui-react'
+// import { Dropdown } from 'semantic-ui-react'
 import "./Mobility.css"
 import CMap from '../services/countries.json';
-import 'semantic-ui-css/semantic.min.css'
+import Select from 'react-select'
+// import 'semantic-ui-css/semantic.min.css'
 
 export default class Mobility extends Component {
 
@@ -38,7 +39,7 @@ export default class Mobility extends Component {
         if(value.includes('_')) continue;
         
         var object = '{ "value" : "' + value + 
-                  '", "text" : "' + text + 
+                  '", "label" : "' + text + 
                   '"}'
 
         objectArray[objectArray.length] = JSON.parse(object);
@@ -105,8 +106,8 @@ export default class Mobility extends Component {
         <div>
           <h2 className="subtitle">Relative Mobility Change</h2>
 
-          <div width='40vw'>
-            <Dropdown
+          <div className="dropdown">
+            {/* <Dropdown
               placeholder='Select Country'
               fluid
               search
@@ -115,6 +116,13 @@ export default class Mobility extends Component {
               onChange={(e, { value }) => {
                 this.fetchMobility(value);
               }}
+            /> */}
+            <Select 
+            options={this.state.countryOptions} 
+            onChange={(e) => {
+              // console.log(e.value);
+              this.fetchMobility(e.value);
+            }}
             />
           </div>
 

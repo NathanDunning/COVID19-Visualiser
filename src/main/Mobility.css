@@ -18,3 +18,11 @@
     align-items: center;
     width: 100vw;
 }
+
+.dropdown {
+    width: 80vw;
+    height: 20px;
+    align-items: center;
+    padding: 0em;
+    color: black;
+}
