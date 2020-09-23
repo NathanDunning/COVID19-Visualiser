@@ -3,11 +3,33 @@ import { getMobility, getMobilityCountries } from '../services/covidServices'
 import { XAxis, YAxis, CartesianGrid, Tooltip, Brush,
   AreaChart, Area, BarChart, Bar
 } from 'recharts';
-// import { Dropdown } from 'semantic-ui-react'
 import "./Mobility.css"
 import CMap from '../services/countries.json';
 import Select from 'react-select'
-// import 'semantic-ui-css/semantic.min.css'
+
+// const CustomTooltip = ({ active, payload, label }) => {
+//   if (active) {
+
+//     console.log(payload);
+
+//     if(payload[0].dataKey == "rec") {
+//       payload[0].dataKey = "Retail and Recreation"
+//     } else if(payload[0].dataKey == "groc") {
+//       payload[0].dataKey = "Supermarket and pharmacy"
+//     } else if(payload[0].dataKey == "park") {
+//       payload[0].dataKey = "Parks"
+//     } else if(payload[0].dataKey == "resident") {
+//       payload[0].dataKey = "Residential"
+//     }
+//     return (
+//       <div className="custom-tooltip">
+//         <p className="label">{`${payload[0].dataKey} : ${payload[0].value}`}</p>
+//       </div>
+//     );
+//   }
+
+//   return null;
+// };
 
 export default class Mobility extends Component {
 
@@ -54,7 +76,7 @@ export default class Mobility extends Component {
   fetchMobility(country) {
     getMobility(country).then(res => {
 
-      // const dateIndex = res.columns.indexOf('date');
+      const dateIndex = res.columns.indexOf('date');
       const recIndex = res.columns.indexOf('mobility_retail_and_recreation');
       const grocIndex = res.columns.indexOf('mobility_grocery_and_pharmacy');
       const parkIndex = res.columns.indexOf('mobility_parks');
@@ -64,10 +86,16 @@ export default class Mobility extends Component {
       var objectArray = [];
       var dayCount = 30;
       for(var i = res.data.length-1; i > 0; i--){
-        var row = res.data[i];
+        const row = res.data[i];
+
+        const dateString = new Date(row[dateIndex]);
+        const date = dateString.toDateString();
+
+
+        console.log(date);
 
         if (row[recIndex] == null) continue;
-        var text = '{ "date" : "' + dayCount + 
+        const text = '{ "date" : "' + date + 
                   '", "rec" : "' + row[recIndex] + 
                   '", "groc" : "' + row[grocIndex] + 
                   '", "park" : "' + row[parkIndex] + 
@@ -103,158 +131,163 @@ export default class Mobility extends Component {
     const total = Math.max(Math.abs(Math.min(dataMinRec, dataMinGroc, dataMinPark, dataMinResident)), Math.abs(Math.max(dataMaxRec, dataMaxGroc, dataMaxPark, dataMaxResident)));
 
     return (
-        <div>
+        <div className="main">
           <h2 className="subtitle">Relative Mobility Change</h2>
 
           <div className="dropdown">
-            {/* <Dropdown
-              placeholder='Select Country'
-              fluid
-              search
-              selection
-              options={this.state.countryOptions}
-              onChange={(e, { value }) => {
-                this.fetchMobility(value);
-              }}
-            /> */}
             <Select 
             options={this.state.countryOptions} 
             onChange={(e) => {
-              // console.log(e.value);
               this.fetchMobility(e.value);
             }}
             />
           </div>
 
           {data !== null && (
-          <div>
-
-        <div className="graph">
-        <h4 className="subtitle">Retail and Recreation</h4>
-        <AreaChart
-          width={600}
-          height={220}
-          data={data}
-          syncId="anyId"
-          margin={{
-            top: 10, right: 30, left: 30, bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis 
-          domain={[-total, total]} 
-          ticks={[-total, dataMinRec, 0, dataMaxRec, total]}  
-          unit="%"
-          />
-          <Tooltip />
-          <Area type="monotone" dataKey="rec" stroke="#8884d8" fill="#8884d8" />
-        </AreaChart>
-        </div>
         
-        <div className="graph">
-        <h4 className="subtitle">Grocery and Pharmacy</h4>
-        <AreaChart
-          width={600}
-          height={220}
-          data={data}
-          syncId="anyId"
-          margin={{
-            top: 10, right: 30, left: 30, bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-          dataKey="date" 
-          
-          />
-          <YAxis 
-          domain={[-total, total]} 
-          ticks={[-total, dataMinGroc, 0, dataMaxGroc, total]} 
-          unit="%" 
-          />
-          <Tooltip />
-          <Area type="monotone" dataKey="groc" stroke="#82ca9d" fill="#82ca9d" />
-        </AreaChart>
-        </div>
+        <div>
 
-        <div className="graph">
-          <h4 className="subtitle">Parks</h4>
-        <AreaChart
-          width={600}
-          height={220}
-          data={data}
-          syncId="anyId"
-          margin={{
-            top: 10, right: 30, left: 30, bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-          dataKey="date" 
-          />
-          <YAxis 
-          domain={[-total, total]} 
-          ticks={[-total, dataMinPark, 0, dataMaxPark, total]}  
-          unit="%" 
-          />
-          <Tooltip />
-          <Area type="monotone" dataKey="park" stroke="#82ca9d" fill="#82ca9d" />
-        </AreaChart>
-        </div>
+        <div className="graphDiv">
+        
+          <div className="graph">
+          <h4 className="subtitle">Retail and Recreation</h4>
+          <AreaChart
+            width={600}
+            height={220}
+            data={data}
+            syncId="anyId"
+            margin={{
+              top: 10, right: 30, left: 30, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis 
+            domain={[-total, total]} 
+            ticks={[-total, dataMinRec, 0, dataMaxRec, total]}  
+            unit="%"
+            />
+            <Tooltip 
+            formatter={(value) => `${value} %`} 
+            />
+            
+            <Area type="monotone" dataKey="rec" name="Retail and Recreation"  stroke="#8884d8" fill="#8884d8" />
+          </AreaChart>
+          </div>
+        
+          <div className="graph">
+          <h4 className="subtitle">Supermarket and Pharmacy</h4>
+          <AreaChart
+            width={600}
+            height={220}
+            data={data}
+            syncId="anyId"
+            margin={{
+              top: 10, right: 30, left: 30, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+            dataKey="date" 
+            
+            />
+            <YAxis 
+            domain={[-total, total]} 
+            ticks={[-total, dataMinGroc, 0, dataMaxGroc, total]} 
+            unit="%" 
+            />
+            <Tooltip 
+            formatter={(value) => `${value} %`} 
+            />
+            <Area type="monotone" dataKey="groc" name="Supermarket and Pharmacy" stroke="#ff7300" fill="#ff7300" />
+          </AreaChart>
+          </div>
+
+          <div className="graph">
+            <h4 className="subtitle">Parks</h4>
+          <AreaChart
+            width={600}
+            height={220}
+            data={data}
+            syncId="anyId"
+            margin={{
+              top: 10, right: 30, left: 30, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+            dataKey="date" 
+            />
+            <YAxis 
+            domain={[-total, total]} 
+            ticks={[-total, dataMinPark, 0, dataMaxPark, total]}  
+            unit="%" 
+            />
+            <Tooltip 
+            formatter={(value) => `${value} %`} 
+            />
+            <Area type="monotone" dataKey="park" name="Parks" stroke="#ffc658" fill="#ffc658" />
+          </AreaChart>
+          </div>
 
         <div className="graph">
           <h4 className="subtitle">Residential</h4>
-          <div>
-        <AreaChart
-          width={600}
-          height={220}
-          data={data}
-          syncId="anyId"
-          margin={{
-            top: 10, right: 30, left: 30, bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-          dataKey="date" 
-          />
-          <YAxis 
-          domain={[-total, total]} 
-          ticks={[-total, dataMinResident, 0, dataMaxResident, total]}  
-          unit="%" 
-          />
-          <Tooltip />
-          <Area type="monotone" dataKey="redsident" stroke="#82ca9d" fill="#82ca9d" />
-        </AreaChart>
-        </div>
+          
+          <AreaChart
+            width={600}
+            height={220}
+            data={data}
+            syncId="anyId"
+            margin={{
+              top: 10, right: 30, left: 30, bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+            dataKey="date" 
+            />
+            <YAxis 
+            domain={[-total, total]} 
+            ticks={[-total, dataMinResident, 0, dataMaxResident, total]}  
+            unit="%" 
+            />
+            <Tooltip 
+            formatter={(value) => `${value} %`} 
+            />
+            <Area type="monotone" dataKey="redsident" name="Residential" stroke="#82ca9d" fill="#82ca9d" />
+          </AreaChart>
         </div>
 
-        <div className="timeline">
-        <BarChart
-        width={1000}
-        height={40}
-        data={data}
-        margin={{
-          left: 0,
-          right: 0,
-          bottom: 0,
-          top: 0
-        }}
-        syncId="anyId"
-      >
-        <Bar dataKey='date' maxBarSize={0} />
-        <Brush
-          dataKey='date'
-          data={data}
-          stroke="#8884d8"
-        />
-      </BarChart>
         </div>
+
+          <div className="timeline">
+          <BarChart
+              width={1000}
+              height={40}
+              data={data}
+              margin={{
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0
+              }}
+              syncId="anyId"
+            >
+              <Bar dataKey='date' maxBarSize={0} />
+              <Brush
+                height={20}
+                startIndex='5'
+                endIndex='25'
+                dataKey='date'
+                data={data}
+                stroke="#8884d8"
+              />
+            </BarChart>
+          </div>
           
-      </div>
-      )}
         </div>
+        )}
+    </div>
     );
   }
 }
