@@ -145,3 +145,43 @@ export const getCountries = () => {
       });
   });
 };
+
+export const getMobility = (country) => {
+  return new Promise((resolve, reject) => {
+
+    fetch(`https://storage.googleapis.com/covid19-open-data/v2/${country}/main.json`)
+      .then((res) => {
+        res.text().then((text) => {
+          const data = JSON.parse(text);
+          if (data) {
+            resolve(data);
+          } else {
+            reject('Error retrieving data');
+          }
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+export const getMobilityCountries = () => {
+  return new Promise((resolve, reject) => {
+
+    fetch(`https://storage.googleapis.com/covid19-open-data/v2/mobility.json`)
+      .then((res) => {
+        res.text().then((text) => {
+          const data = JSON.parse(text);
+          if (data) {
+            resolve(data);
+          } else {
+            reject('Error retrieving data');
+          }
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
