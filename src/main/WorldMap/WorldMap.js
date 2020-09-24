@@ -17,14 +17,15 @@ export default class WorldMap extends Component {
   componentDidMount() {
     // API Call and processing
     getDataAllCountries().then((res) => {
+      console.log(res);
       let countryCases = {};
       let data = new Map();
       res.forEach((country) => {
         let active = country.confirmed - country.recovered - country.deaths;
         active >= 0 ? (country.active = active) : (country.active = 0);
 
-        countryCases[country.code] = country.confirmed;
-        data.set(country.code, country);
+        countryCases[country.country] = country.cases;
+        data.set(country.country, country);
       });
 
       // Pass to map object
@@ -35,9 +36,6 @@ export default class WorldMap extends Component {
             values: countryCases,
             scale: ['#C8EEFF', '#0071A4'],
             normalizeFunction: 'polynomial',
-            legend: {
-              vertical: true,
-            },
           },
         ],
       };
@@ -63,23 +61,28 @@ export default class WorldMap extends Component {
 
     // Our main data object
     var countryData = this.state.data.get(code);
+    console.log(countryData);
     if (countryData === undefined) {
-      countryData = {
-        confirmed: 'unknown',
-        recovered: 'unknown',
-        active: 'unknown',
-        critical: 'unknown',
-        deaths: 'unknown',
-      };
+      label.html(`
+      <div class="title text-center h5"><span>${label.html()}</span></div>
+      <table>
+        <tbody>
+          <tr>
+            <td><b>No Data</b></td>
+          </tr>
+        </tbody>
+      </table>
+  `);
+      return;
     }
     label.html(`
         <div class="title text-center h5"><span>${label.html()}</span></div>
         <table>
           <tbody>
             <tr>
-              <td><b>Confirmed:</b></td>
+              <td><b>Cases:</b></td>
               <td><span class="text--green">${numberWithCommas(
-                countryData.confirmed
+                countryData.cases
               )}</span></td>
             </tr>
             <tr>
@@ -89,20 +92,8 @@ export default class WorldMap extends Component {
               )}</span></td>
             </tr>
             <tr>
-              <td><b>Active:</b></td>
-              <td><span class="text--yellow">${numberWithCommas(
-                countryData.active
-              )}</span></td>
-            </tr>
-            <tr>
-              <td><b>Critical:</b></td>
-              <td><span class="text--orange">${numberWithCommas(
-                countryData.critical
-              )}</span></td>
-            </tr>
-            <tr>
               <td><b>Deaths:</b></td>
-              <td><span class="text--red">${numberWithCommas(
+              <td><span class="text--yellow">${numberWithCommas(
                 countryData.deaths
               )}</span></td>
             </tr>
@@ -113,7 +104,6 @@ export default class WorldMap extends Component {
   }
 
   render() {
-    console.log('render');
     let element;
     const formatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     this.state.loading
