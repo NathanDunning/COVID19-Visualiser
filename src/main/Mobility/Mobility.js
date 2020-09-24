@@ -113,7 +113,7 @@ export default class Mobility extends Component {
           <h2 className="subtitle">Relative Mobility Change</h2>
           {
             loading ?
-            <div className="center">
+            <div className="middle">
               <Loader
                 type="TailSpin"
                 color="#00BFFF"
