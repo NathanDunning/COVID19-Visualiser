@@ -1,5 +1,5 @@
 # image: "node:12.6.0"
-  
+
 stages:
   - deploy
 
@@ -8,10 +8,10 @@ HerokuDeploy:
     - shell
   stage: deploy
   script:
-   - if ! git show-ref --verify --quiet refs/remotes/heroku/master; then git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/data-visualisation-swen422.git; fi
-   - git push heroku HEAD:master
+    - if ! git show-ref --verify --quiet refs/remotes/heroku/master; then git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/data-visualisation-swen422.git; fi
+    - git push -f heroku HEAD:master
   environment:
     name: production
     url: https://data-visualisation-swen422.herokuapp.com/
-  only: 
+  only:
     - master

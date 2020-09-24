@@ -1,0 +1,44 @@
+.graph {
+    float:left;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 50px;
+    color:black;
+}
+
+.subtitle{
+    margin:10px;
+    text-align: center;
+    color:aliceblue;
+}
+
+.timeline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    float: left;
+    margin-top:20px;
+}
+
+.dropdown {
+    width: 50vw;
+    margin-right: 25vw;
+    margin-left: 25vw;
+    margin-top: 10px;
+    position: relative;
+    color: black;
+}
+
+.graphDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.middle {
+    margin:auto;
+    margin-top: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
