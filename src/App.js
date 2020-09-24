@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import WorldMap from './main/WorldMap/WorldMap';
-import View2 from './main/view2';
+import LineChart from './main/LineChart/LineChart';
 import View3 from './main/view3';
 import './App.css';
 
@@ -15,8 +15,8 @@ function App() {
             {' '}
             World Map{' '}
           </Link>
-          <Link to={'/view2'} className='nav-link'>
-            View 2
+          <Link to={'/linechart'} className='nav-link'>
+            Line Chart
           </Link>
           <Link to={'/view3'} className='nav-link'>
             View 3
@@ -29,7 +29,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={WorldMap} />
         <Route path='/map' component={WorldMap} />
-        <Route path='/view2' component={View2} />
+        <Route path='/linechart' component={LineChart} />
         <Route path='/view3' component={View3} />
       </Switch>
     </Router>
