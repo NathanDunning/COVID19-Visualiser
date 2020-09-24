@@ -1,0 +1,62 @@
+{
+  "NZ": {
+    "location" : "New Zealand",
+    "data" : [
+      {
+        "date" : "21/09/2020",
+        "total_cases": 9,
+        "new_cases": 0,
+        "total_deaths": 0,
+        "new_deaths": 0,
+        "total_cases_per_million": 0,
+        "new_cases_per_million": 0,
+        "total_deaths_per_million": 0,
+        "new_deaths_per_million": 0
+      },
+      {
+        "date" : "20/09/2020",
+        "total_cases": 8,
+        "new_cases": 0,
+        "total_deaths": 0,
+        "new_deaths": 0,
+        "total_cases_per_million": 0,
+        "new_cases_per_million": 0,
+        "total_deaths_per_million": 0,
+        "new_deaths_per_million": 0
+      },
+      {
+        "date" : "19/09/2020",
+        "total_cases": 7,
+        "new_cases": 0,
+        "total_deaths": 0,
+        "new_deaths": 0,
+        "total_cases_per_million": 0,
+        "new_cases_per_million": 0,
+        "total_deaths_per_million": 0,
+        "new_deaths_per_million": 0
+      },
+      {
+        "date" : "18/09/2020",
+        "total_cases": 6,
+        "new_cases": 0,
+        "total_deaths": 0,
+        "new_deaths": 0,
+        "total_cases_per_million": 0,
+        "new_cases_per_million": 0,
+        "total_deaths_per_million": 0,
+        "new_deaths_per_million": 0
+      },
+      {
+        "date" : "17/09/2020",
+        "total_cases": 5,
+        "new_cases": 0,
+        "total_deaths": 0,
+        "new_deaths": 0,
+        "total_cases_per_million": 0,
+        "new_cases_per_million": 0,
+        "total_deaths_per_million": 0,
+        "new_deaths_per_million": 0
+      }
+    ]
+  }
+}
