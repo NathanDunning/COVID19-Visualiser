@@ -1,10 +1,11 @@
+import CMap from './countries.json';
 /**
  * Fetch COVID data by country.
  * @param {String} country Name of the country.
  * @returns {Object} Data of requested country.
  */
 export const getDataByCountry = (country) => {
-  const formattedCountry = country.replace(/\s+/g, '%20');
+  const formattedCountry = CMap[country];
 
   return new Promise((resolve, reject) => {
     const requestOptions = {
@@ -12,15 +13,17 @@ export const getDataByCountry = (country) => {
       headers: { 'Content-Type': 'application/json' },
     };
     fetch(
-      `https://covid19-api.com/country?name=${formattedCountry}&format=json`,
+      `https://covid19-api.org/api/status/${formattedCountry}`,
       requestOptions
     )
       .then((res) => {
-        res.json().then((json) => {
-          if (!json.length) {
+        res.text().then((text) => {
+          const data = JSON.parse(text);
+          if (data) {
+            resolve(data);
+          } else {
             reject('No data returned');
           }
-          resolve(json[0]);
         });
       })
       .catch((err) => {
@@ -35,12 +38,12 @@ export const getDataByCountry = (country) => {
  */
 export const getDataAllCountries = () => {
   return new Promise((resolve, reject) => {
-    const requestOptions = {
+    var requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      redirect: 'follow',
     };
 
-    fetch('https://covid19-api.com/country/all?format=json', requestOptions)
+    fetch('https://covid19-api.org/api/status', requestOptions)
       .then((res) => {
         res.json().then((json) => {
           resolve(json);
@@ -53,7 +56,7 @@ export const getDataAllCountries = () => {
 };
 
 /**
- * Gets a report of all country on a given date (DIFFERENT DATE FORMAT TO OTHERS)
+ * Gets a report of all country on a given date
  * @param {String} date Date of report (YYYY-MM-DD).
  * @returns {Array} Report of all countries on given date.
  */
@@ -81,11 +84,11 @@ export const getDatedReportAll = (date) => {
 /**
  * Get a report of COVID cases in a country on a specified date.
  * @param {String} country Name of country.
- * @param {String} date Date of report (DD-MM-YYYY).
+ * @param {String} date Date of report (YYYY-MM-DD).
  * @returns {Object} Report of requested country on given date.
  */
 export const getDatedReportByCountry = (country, date) => {
-  const formattedCountry = country.replace(/\s+/g, '%20');
+  const formattedCountry = CMap[country];
   return new Promise((resolve, reject) => {
     const requestOptions = {
       method: 'GET',
@@ -93,69 +96,20 @@ export const getDatedReportByCountry = (country, date) => {
     };
 
     fetch(
-      `https://covid19-api.com/report/country/name?name=${formattedCountry}&date=${date}&date-format=DD-MM-YYYY&format=json`,
+      `https://covid19-api.org/api/status/${formattedCountry}?date=${date}`,
       requestOptions
     )
       .then((res) => {
-        res.json().then((json) => {
-          if (json.message) {
-            reject(json.message);
+        if (res.status === 400) {
+          reject('Invalid Request');
+        }
+        res.text().then((text) => {
+          const data = JSON.parse(text);
+          if (data) {
+            resolve(data);
+          } else {
+            reject('Error retrieving data');
           }
-          if (!json.length) {
-            reject('No data returned');
-          }
-          resolve(json[0]);
-        });
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-};
-
-/**
- * Get a global report of COVID cases on a specified date.
- * @param {String} date Date of report (DD-MM-YYYY).
- * @returns {Object} Report of requested country on given date.
- */
-export const getGlobalDatedReport = (date) => {
-  return new Promise((resolve, reject) => {
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    };
-
-    fetch(
-      `https://covid19-api.com/report/totals?date=${date}&date-format=DD-MM-YYYY&format=json
-            `,
-      requestOptions
-    )
-      .then((res) => {
-        res.json().then((json) => {
-          resolve(json[0]);
-        });
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-};
-
-/**
- * Get latest global totals.
- * @returns {Object} Object containing global totoal data.
- */
-export const getLatestTotals = () => {
-  return new Promise((resolve, reject) => {
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    };
-
-    fetch('https://covid19-api.com/totals?format=json', requestOptions)
-      .then((res) => {
-        res.json().then((json) => {
-          resolve(json[0]);
         });
       })
       .catch((err) => {
@@ -175,10 +129,15 @@ export const getCountries = () => {
       headers: { 'Content-Type': 'application/json' },
     };
 
-    fetch('https://covid19-api.com/help/countries?format=json', requestOptions)
+    fetch('https://covid19-api.org/api/countries', requestOptions)
       .then((res) => {
-        res.json().then((json) => {
-          resolve(json);
+        res.text().then((text) => {
+          const data = JSON.parse(text);
+          if (data) {
+            resolve(data);
+          } else {
+            reject('Error retrieving data');
+          }
         });
       })
       .catch((err) => {
