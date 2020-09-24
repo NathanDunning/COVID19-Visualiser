@@ -34,3 +34,11 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.center {
+    margin:auto;
+    margin-top: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

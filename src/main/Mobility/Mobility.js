@@ -3,6 +3,7 @@ import { getMobility, getMobilityCountries } from '../../services/covidServices'
 import { XAxis, YAxis, CartesianGrid, Tooltip, Brush,
   AreaChart, Area, BarChart, Bar
 } from 'recharts';
+import Loader from 'react-loader-spinner'
 import "./Mobility.css"
 import CMap from '../../services/countries.json';
 import Select from 'react-select'
@@ -14,7 +15,8 @@ export default class Mobility extends Component {
     this.state = {
       data: [],
       country: '',
-      countryOptions: []
+      countryOptions: [],
+      loading: true
     }
   }
 
@@ -44,7 +46,8 @@ export default class Mobility extends Component {
       }
 
       this.setState({
-        countryOptions: objectArray
+        countryOptions: objectArray,
+        loading: false
       })
     })
   }
@@ -103,163 +106,175 @@ export default class Mobility extends Component {
 
     const total = Math.max(Math.abs(Math.min(dataMinRec, dataMinGroc, dataMinPark, dataMinResident)), Math.abs(Math.max(dataMaxRec, dataMaxGroc, dataMaxPark, dataMaxResident)));
 
+    const loading = this.state.loading
+    
     return (
         <div className="main">
           <h2 className="subtitle">Relative Mobility Change</h2>
+          {
+            loading ?
+            <div className="center">
+              <Loader
+                type="TailSpin"
+                color="#00BFFF"
+                height={100}
+                width={100}
+              /> 
+            </div>       
+            :
+            <div>
+              <div className="dropdown">
+                <Select 
+                options={this.state.countryOptions} 
+                onChange={(e) => {
+                  this.fetchMobility(e.value);
+                }}
+                />
+              </div>
+              {data !== null && (              
+                <div>
+                <div className="graphDiv">
+                
+                  <div className="graph">
+                  <h4 className="subtitle">Retail and Recreation</h4>
+                  <AreaChart
+                    width={600}
+                    height={220}
+                    data={data}
+                    syncId="anyId"
+                    margin={{
+                      top: 10, right: 30, left: 30, bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis 
+                    domain={[-total, total]} 
+                    ticks={[-total, dataMinRec, 0, dataMaxRec, total]}  
+                    unit="%"
+                    />
+                    <Tooltip 
+                    formatter={(value) => `${value} %`} 
+                    />
+                    
+                    <Area type="monotone" dataKey="rec" name="Retail and Recreation"  stroke="#8884d8" fill="#8884d8" />
+                  </AreaChart>
+                  </div>
+                
+                  <div className="graph">
+                  <h4 className="subtitle">Supermarket and Pharmacy</h4>
+                  <AreaChart
+                    width={600}
+                    height={220}
+                    data={data}
+                    syncId="anyId"
+                    margin={{
+                      top: 10, right: 30, left: 30, bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                    dataKey="date" 
+                    
+                    />
+                    <YAxis 
+                    domain={[-total, total]} 
+                    ticks={[-total, dataMinGroc, 0, dataMaxGroc, total]} 
+                    unit="%" 
+                    />
+                    <Tooltip 
+                    formatter={(value) => `${value} %`} 
+                    />
+                    <Area type="monotone" dataKey="groc" name="Supermarket and Pharmacy" stroke="#ff7300" fill="#ff7300" />
+                  </AreaChart>
+                  </div>
 
-          <div className="dropdown">
-            <Select 
-            options={this.state.countryOptions} 
-            onChange={(e) => {
-              this.fetchMobility(e.value);
-            }}
-            />
-          </div>
+                  <div className="graph">
+                    <h4 className="subtitle">Parks</h4>
+                  <AreaChart
+                    width={600}
+                    height={220}
+                    data={data}
+                    syncId="anyId"
+                    margin={{
+                      top: 10, right: 30, left: 30, bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                    dataKey="date" 
+                    />
+                    <YAxis 
+                    domain={[-total, total]} 
+                    ticks={[-total, dataMinPark, 0, dataMaxPark, total]}  
+                    unit="%" 
+                    />
+                    <Tooltip 
+                    formatter={(value) => `${value} %`} 
+                    />
+                    <Area type="monotone" dataKey="park" name="Parks" stroke="#ffc658" fill="#ffc658" />
+                  </AreaChart>
+                  </div>
 
-          {data !== null && (
-        
-        <div>
+                <div className="graph">
+                  <h4 className="subtitle">Residential</h4>
+                  
+                  <AreaChart
+                    width={600}
+                    height={220}
+                    data={data}
+                    syncId="anyId"
+                    margin={{
+                      top: 10, right: 30, left: 30, bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                    dataKey="date" 
+                    />
+                    <YAxis 
+                    domain={[-total, total]} 
+                    ticks={[-total, dataMinResident, 0, dataMaxResident, total]}  
+                    unit="%" 
+                    />
+                    <Tooltip 
+                    formatter={(value) => `${value} %`} 
+                    />
+                    <Area type="monotone" dataKey="redsident" name="Residential" stroke="#82ca9d" fill="#82ca9d" />
+                  </AreaChart>
+                </div>
 
-        <div className="graphDiv">
-        
-          <div className="graph">
-          <h4 className="subtitle">Retail and Recreation</h4>
-          <AreaChart
-            width={600}
-            height={220}
-            data={data}
-            syncId="anyId"
-            margin={{
-              top: 10, right: 30, left: 30, bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis 
-            domain={[-total, total]} 
-            ticks={[-total, dataMinRec, 0, dataMaxRec, total]}  
-            unit="%"
-            />
-            <Tooltip 
-            formatter={(value) => `${value} %`} 
-            />
-            
-            <Area type="monotone" dataKey="rec" name="Retail and Recreation"  stroke="#8884d8" fill="#8884d8" />
-          </AreaChart>
-          </div>
-        
-          <div className="graph">
-          <h4 className="subtitle">Supermarket and Pharmacy</h4>
-          <AreaChart
-            width={600}
-            height={220}
-            data={data}
-            syncId="anyId"
-            margin={{
-              top: 10, right: 30, left: 30, bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-            dataKey="date" 
-            
-            />
-            <YAxis 
-            domain={[-total, total]} 
-            ticks={[-total, dataMinGroc, 0, dataMaxGroc, total]} 
-            unit="%" 
-            />
-            <Tooltip 
-            formatter={(value) => `${value} %`} 
-            />
-            <Area type="monotone" dataKey="groc" name="Supermarket and Pharmacy" stroke="#ff7300" fill="#ff7300" />
-          </AreaChart>
-          </div>
+                </div>
 
-          <div className="graph">
-            <h4 className="subtitle">Parks</h4>
-          <AreaChart
-            width={600}
-            height={220}
-            data={data}
-            syncId="anyId"
-            margin={{
-              top: 10, right: 30, left: 30, bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-            dataKey="date" 
-            />
-            <YAxis 
-            domain={[-total, total]} 
-            ticks={[-total, dataMinPark, 0, dataMaxPark, total]}  
-            unit="%" 
-            />
-            <Tooltip 
-            formatter={(value) => `${value} %`} 
-            />
-            <Area type="monotone" dataKey="park" name="Parks" stroke="#ffc658" fill="#ffc658" />
-          </AreaChart>
-          </div>
-
-        <div className="graph">
-          <h4 className="subtitle">Residential</h4>
-          
-          <AreaChart
-            width={600}
-            height={220}
-            data={data}
-            syncId="anyId"
-            margin={{
-              top: 10, right: 30, left: 30, bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-            dataKey="date" 
-            />
-            <YAxis 
-            domain={[-total, total]} 
-            ticks={[-total, dataMinResident, 0, dataMaxResident, total]}  
-            unit="%" 
-            />
-            <Tooltip 
-            formatter={(value) => `${value} %`} 
-            />
-            <Area type="monotone" dataKey="redsident" name="Residential" stroke="#82ca9d" fill="#82ca9d" />
-          </AreaChart>
+                  <div className="timeline">
+                  <BarChart
+                      width={1000}
+                      height={40}
+                      data={data}
+                      margin={{
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        top: 0
+                      }}
+                      syncId="anyId"
+                    >
+                      <Bar dataKey='date' maxBarSize={0} />
+                      <Brush
+                        height={20}
+                        startIndex={5}
+                        endIndex={25}
+                        dataKey='date'
+                        data={data}
+                        stroke="#8884d8"
+                      />
+                    </BarChart>
+                  </div>
+                  
+                </div>
+              )}
         </div>
-
-        </div>
-
-          <div className="timeline">
-          <BarChart
-              width={1000}
-              height={40}
-              data={data}
-              margin={{
-                left: 0,
-                right: 0,
-                bottom: 0,
-                top: 0
-              }}
-              syncId="anyId"
-            >
-              <Bar dataKey='date' maxBarSize={0} />
-              <Brush
-                height={20}
-                startIndex={5}
-                endIndex={25}
-                dataKey='date'
-                data={data}
-                stroke="#8884d8"
-              />
-            </BarChart>
-          </div>
-          
-        </div>
-        )}
+      }
     </div>
     );
   }
