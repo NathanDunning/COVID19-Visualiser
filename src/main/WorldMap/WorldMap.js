@@ -1,142 +1,89 @@
 import React, { Component } from 'react';
-import Loader from 'react-loader-spinner';
-import { VectorMap } from 'react-jvectormap';
-import { getDataAllCountries } from '../../services/covidServices';
+import Absolute from './Absolute';
+import PerMillion from './PerMillion';
+import Button from '@material-ui/core/Button';
 import './WorldMap.css';
 
 export default class WorldMap extends Component {
   constructor(props) {
     super(props);
-    this.mapRef = React.createRef();
     this.state = {
-      loading: true,
       date: new Date(),
+      metric: 'absolute',
     };
   }
 
-  componentDidMount() {
-    // API Call and processing
-    getDataAllCountries().then((res) => {
-      console.log(res);
-      let countryCases = {};
-      let data = new Map();
-      res.forEach((country) => {
-        let active = country.confirmed - country.recovered - country.deaths;
-        active >= 0 ? (country.active = active) : (country.active = 0);
-
-        countryCases[country.country] = country.cases;
-        data.set(country.country, country);
-      });
-
-      // Pass to map object
-      const series = {
-        regions: [
-          {
-            attribute: 'fill',
-            values: countryCases,
-            scale: ['#C8EEFF', '#0071A4'],
-            normalizeFunction: 'polynomial',
-          },
-        ],
-      };
-
-      this.setState({
-        data: data,
-        countryCases: countryCases,
-        series: series,
-        loading: false,
-      });
-    });
-  }
-
-  switchSelectorHandler(dynamic) {
-    this.setState({ dynamic: dynamic });
-  }
-
-  onRegionTipShow(e, label, code) {
-    // Format numbers to have commas
-    function numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
-    // Our main data object
-    var countryData = this.state.data.get(code);
-    console.log(countryData);
-    if (countryData === undefined) {
-      label.html(`
-      <div class="title text-center h5"><span>${label.html()}</span></div>
-      <table>
-        <tbody>
-          <tr>
-            <td><b>No Data</b></td>
-          </tr>
-        </tbody>
-      </table>
-  `);
-      return;
-    }
-    label.html(`
-        <div class="title text-center h5"><span>${label.html()}</span></div>
-        <table>
-          <tbody>
-            <tr>
-              <td><b>Cases:</b></td>
-              <td><span class="text--green">${numberWithCommas(
-                countryData.cases
-              )}</span></td>
-            </tr>
-            <tr>
-              <td><b>Recovered:</b></td>
-              <td><span class="text--blue">${numberWithCommas(
-                countryData.recovered
-              )}</span></td>
-            </tr>
-            <tr>
-              <td><b>Deaths:</b></td>
-              <td><span class="text--yellow">${numberWithCommas(
-                countryData.deaths
-              )}</span></td>
-            </tr>
-          </tbody>
-        </table>
-    `);
-    // Can add more here if we want (check the countryData object, contains juicy stuff)
+  onClick(name) {
+    this.setState({ metric: name });
   }
 
   render() {
-    let element;
     const formatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    this.state.loading
-      ? (element = (
-          <Loader type='TailSpin' color='#00BFFF' height={100} width={100} />
-        ))
-      : (element = (
-          <div id='test'>
-            <div>
-              <h1 style={{ margin: 0, marginTop: '0.5rem' }}>
-                {this.state.date.toLocaleDateString('en-GB', formatOptions)}
-              </h1>
-            </div>
-
-            <div id='mapElem' className='block center'>
-              <VectorMap
-                map={'world_mill'}
-                backgroundColor='#15171a'
-                ref={this.mapRef}
-                containerStyle={{
-                  height: '90%',
-                  width: '90%',
-                }}
-                containerClassName='map'
-                series={this.state.series}
-                onRegionTipShow={this.onRegionTipShow.bind(this)}
-                zoomOnScroll={false}
-              />
-            </div>
-          </div>
-        ));
-
-    return element;
+    const map =
+      this.state.metric === 'absolute' ? <Absolute /> : <PerMillion />;
+    return (
+      <div id='test'>
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <h1 style={{ textAlign: 'center', margin: 0, marginTop: '0.5rem' }}>
+            COVID-19 Cases as of{' '}
+            {this.state.date.toLocaleDateString('en-GB', formatOptions)}
+          </h1>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '1rem',
+          }}
+        >
+          {this.state.metric === 'absolute' ? (
+            <Button
+              style={{ marginRight: '0.5rem' }}
+              variant='contained'
+              size='small'
+              color='primary'
+              onClick={() => this.onClick('absolute')}
+            >
+              Absolute
+            </Button>
+          ) : (
+            <Button
+              style={{ marginRight: '0.5rem' }}
+              variant='contained'
+              size='small'
+              onClick={() => this.onClick('absolute')}
+            >
+              Absolute
+            </Button>
+          )}
+          {this.state.metric === 'permillion' ? (
+            <Button
+              style={{ marginRight: '0.5rem' }}
+              variant='contained'
+              size='small'
+              color='primary'
+              onClick={() => this.onClick('permillion')}
+            >
+              Per Million
+            </Button>
+          ) : (
+            <Button
+              style={{ marginRight: '0.5rem' }}
+              variant='contained'
+              size='small'
+              onClick={() => this.onClick('permillion')}
+            >
+              Per Million
+            </Button>
+          )}
+        </div>
+        {map}
+      </div>
+    );
   }
 }
 

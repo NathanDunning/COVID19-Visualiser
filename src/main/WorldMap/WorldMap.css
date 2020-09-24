@@ -1,30 +1,30 @@
 #mapElem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-height: 80vh;
-    max-width: 80vw;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  max-width: 80vw;
+  overflow: hidden;
 }
 
 #mapElem .map .jvectormap-container .jvectormap-zoomin {
-    display: none
+  display: none;
 }
 
 #mapElem .map .jvectormap-container .jvectormap-zoomout {
-    display: none
+  display: none;
 }
 
 .block {
-    height:100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 .center {
-    margin:auto;
+  margin: auto;
 }
 .left {
-    margin:auto auto auto 0;
+  margin: auto auto auto 0;
 }
 .right {
-    margin:auto 0 auto auto;
+  margin: auto 0 auto auto;
 }
