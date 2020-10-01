@@ -82,6 +82,29 @@ export const getDatedReportAll = (date) => {
 };
 
 /**
+ */
+export const getTimelineByCountry = (country) => {
+  return new Promise((resolve, reject) => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(`https://covid19-api.org/api/timeline/${country}`, requestOptions)
+      .then((res) => res.json())
+      .then((json) => {
+        if (!json.length) {
+          reject('No data returned');
+        }
+        resolve(json);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+/**
  * Get a report of COVID cases in a country on a specified date.
  * @param {String} country Name of country.
  * @param {String} date Date of report (YYYY-MM-DD).
