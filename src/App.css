@@ -168,4 +168,10 @@ h5 {
 .MuiFormControlLabel-root {
   justify-content: center;
 }
+
+.countryPicker{
+  color: black;
+  width: 1000px;
+  display: inline-block;
+}
 /* END INDEX.CSS THINGS */
